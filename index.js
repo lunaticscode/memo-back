@@ -12,7 +12,7 @@ const logMiddleware = require("./middleware/log.middleware");
 const mainController = require("./controller");
 
 app.get("/test", (req, res) => {
-  return res.json({ result: true });
+  return res.json({ result: true, message: "success test" });
 });
 
 app.use("/api", logMiddleware, mainController);
