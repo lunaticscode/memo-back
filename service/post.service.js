@@ -10,13 +10,26 @@ const getPostAll = async (owner) =>
           console.log(err);
           return resolve(null);
         }
-        console.log(result);
         return resolve(result);
       }
     );
   });
 
-const getPostDetail = async () => await new Promise((resolve) => {});
+const getPostDetail = async (id) =>
+  await new Promise((resolve) => {
+    dbConnection.query(
+      "select * from memo where id = ?",
+      [id],
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          return resolve(null);
+        }
+        console.log(result);
+        return resolve(result);
+      }
+    );
+  });
 
 const createPost = async ({ owner, content }) =>
   await new Promise((resolve) => {
@@ -28,7 +41,6 @@ const createPost = async ({ owner, content }) =>
           console.log(err);
           return resolve(null);
         } else {
-          console.log(result);
           return resolve(true);
         }
       }
