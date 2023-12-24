@@ -1,5 +1,7 @@
 const dbConnection = require("../dbInit");
 
+const createPostComment = async () => await new Promise((resolve) => {});
+
 const getPostAll = async (owner) =>
   await new Promise((resolve) => {
     dbConnection.query(
@@ -47,8 +49,25 @@ const createPost = async ({ owner, content }) =>
     );
   });
 
+const setPostlike = async ({ owner, id, like }) =>
+  await new Promise((resolve) => {
+    dbConnection.query(
+      "update memo set `like` = ? where id = ?;",
+      [like, id],
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          return resolve(null);
+        } else {
+          // console.log(result);
+          return resolve(true);
+        }
+      }
+    );
+  });
 module.exports = {
   getPostAll,
   getPostDetail,
   createPost,
+  setPostlike,
 };

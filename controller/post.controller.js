@@ -2,6 +2,7 @@ const {
   getPostAll,
   createPost,
   getPostDetail,
+  setPostlike,
 } = require("../service/post.service");
 
 const postController = require("express").Router();
@@ -36,6 +37,20 @@ postController.post("/", async (req, res) => {
     return res.json({ result: false });
   }
   return res.status(201).json({ result: true });
+});
+
+postController.put("/like", async (req, res) => {
+  // console.log(req.body);
+  const { owner, like, id } = req.body;
+  if (!owner || !id || isNaN(like)) {
+    return res.status(400).json({ result: false });
+  }
+  const updateLikeResult = await setPostlike({ owner, like, id });
+  // console.log({ updateLikeResult });
+  if (!updateLikeResult) {
+    return res.status(400).json({ result: false });
+  }
+  return res.status(200).json({ result: true });
 });
 
 module.exports = postController;
