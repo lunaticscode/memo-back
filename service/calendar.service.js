@@ -96,10 +96,23 @@ const addCalendar = async ({ owner = "", targetDate, content }) =>
     );
   });
 
-const deleteCalendar = async ({ owner = "", targetDate, contentId }) =>
-  await new Promise((resolve, reject) => {});
+const deleteCalendar = async ({ targetId }) =>
+  await new Promise((resolve) => {
+    dbConnection.query(
+      "delete from calendar where id = ?",
+      [targetId],
+      (err, result) => {
+        if (err) {
+          console.log({ err });
+          return resolve(false);
+        }
+        return resolve(true);
+      }
+    );
+  });
 module.exports = {
   getCalendarByType,
   addCalendar,
   getCalendarOne,
+  deleteCalendar,
 };

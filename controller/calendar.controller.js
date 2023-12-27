@@ -2,6 +2,7 @@ const {
   getCalendarByType,
   getCalendarOne,
   addCalendar,
+  deleteCalendar,
 } = require("../service/calendar.service");
 
 const calendarController = require("express").Router();
@@ -54,6 +55,18 @@ calendarController.post("/add", async (req, res) => {
   if (addResult) {
     return res.status(201).json({ result: true });
   }
+});
+
+calendarController.delete("/:id", async (req, res) => {
+  const targetId = req.params.id;
+  if (!targetId) {
+    return res.status(400).json({ result: false });
+  }
+  const deleteResult = await deleteCalendar({ targetId });
+  if (!deleteResult) {
+    return res.status(500).json({ result: false });
+  }
+  return res.status(200).json({ result: true });
 });
 
 module.exports = calendarController;
