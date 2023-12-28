@@ -25,25 +25,17 @@ calendarController.get("/", async (req, res) => {
 
 calendarController.post("/", async (req, res) => {
   /**
-   * @type {{owner: string, targetDate: Date, type: string}}
+   * @type {{owner: string, targetDate: string, type: string}}
    */
   const { owner, targetDate, type } = req.body;
   if (!owner || !targetDate || !type) {
     return res.status(400).json({ result: false });
   }
 
-  const _targetDate = new Date(
-    new Date(targetDate).getFullYear(),
-    new Date(targetDate).getMonth(),
-    new Date(targetDate).getDate(),
-    0,
-    0,
-    0
-  );
-  console.log(targetDate, _targetDate);
+  console.log(targetDate);
   const calendarDataList = await getCalendarByType({
     owner,
-    targetDate: new Date(_targetDate),
+    targetDate: new Date(`${targetDate} 00:00:00`),
     type,
   });
   if (!calendarDataList) {
