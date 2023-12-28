@@ -37,6 +37,7 @@ calendarController.post("/", async (req, res) => {
     new Date(targetDate).getMonth(),
     new Date(targetDate).getDate()
   );
+  console.log(targetDate, _targetDate);
   const calendarDataList = await getCalendarByType({
     owner,
     targetDate: new Date(_targetDate),
