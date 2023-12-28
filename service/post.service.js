@@ -27,7 +27,6 @@ const getPostDetail = async (id) =>
           console.log(err);
           return resolve(null);
         }
-        console.log(result);
         return resolve(result);
       }
     );

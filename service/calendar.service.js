@@ -19,7 +19,6 @@ const getCalendarOne = async ({ owner, targetDate }) =>
           console.log(err);
           return resolve(null);
         }
-        console.log({ result });
         return resolve(result);
       }
     );
@@ -50,7 +49,6 @@ const getCalendarByType = async ({ owner = "", targetDate, type = "day" }) =>
             console.log(err);
             return resolve(null);
           } else {
-            console.log(result);
             return resolve(result);
           }
         }
@@ -72,7 +70,6 @@ const getCalendarByType = async ({ owner = "", targetDate, type = "day" }) =>
             console.log(err);
             return resolve(null);
           } else {
-            console.log(result);
             return resolve(result);
           }
         }

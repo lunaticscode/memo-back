@@ -10,6 +10,7 @@ const calendarController = require("express").Router();
 calendarController.get("/", async (req, res) => {
   const { owner, targetDate } = req.query;
   console.log({ owner, targetDate });
+  console.log(new Date(`${targetDate} 00:00:00`));
   const getResult = await getCalendarOne({
     owner,
     targetDate: new Date(`${targetDate} 00:00:00`),
@@ -23,14 +24,22 @@ calendarController.get("/", async (req, res) => {
 });
 
 calendarController.post("/", async (req, res) => {
+  /**
+   * @type {{owner: string, targetDate: Date, type: string}}
+   */
   const { owner, targetDate, type } = req.body;
   if (!owner || !targetDate || !type) {
     return res.status(400).json({ result: false });
   }
-  console.log(req.body);
+
+  const _targetDate = new Date(
+    new Date(targetDate).getFullYear(),
+    new Date(targetDate).getMonth(),
+    new Date(targetDate).getDate()
+  );
   const calendarDataList = await getCalendarByType({
     owner,
-    targetDate: new Date(targetDate),
+    targetDate: new Date(_targetDate),
     type,
   });
   if (!calendarDataList) {
