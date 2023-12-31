@@ -1,3 +1,4 @@
+const { CALENDAR_LABELL_COLOR } = require("../consts");
 const dbConnection = require("../dbInit");
 
 /**
@@ -77,11 +78,16 @@ const getCalendarByType = async ({ owner = "", targetDate, type = "day" }) =>
     }
   });
 
-const addCalendar = async ({ owner = "", targetDate, content }) =>
+const addCalendar = async ({ owner = "", targetDate, content, label }) =>
   await new Promise((resolve) => {
     dbConnection.query(
-      "insert into calendar (owner, targetDate, content) values (?, ?, ?)",
-      [owner, targetDate, content],
+      "insert into calendar (owner, targetDate, content, label) values (?, ?, ?, ?)",
+      [
+        owner,
+        targetDate,
+        content,
+        CALENDAR_LABELL_COLOR[label] || CALENDAR_LABELL_COLOR.GREEN,
+      ],
       (err, result) => {
         if (err) {
           console.log(err);
@@ -92,6 +98,15 @@ const addCalendar = async ({ owner = "", targetDate, content }) =>
       }
     );
   });
+
+const updateCalendar = async ({ owner = "", content, label, id }) => {
+  await new Promise((resolve) => {
+    dbConnection.query(
+      "update memo set `content` = ? and `label` = ? where id = ?;",
+      [content, label, id]
+    );
+  });
+};
 
 const deleteCalendar = async ({ targetId }) =>
   await new Promise((resolve) => {

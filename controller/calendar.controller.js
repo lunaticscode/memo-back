@@ -1,3 +1,4 @@
+const { CALENDAR_LABELL_COLOR } = require("../consts");
 const {
   getCalendarByType,
   getCalendarOne,
@@ -6,6 +7,11 @@ const {
 } = require("../service/calendar.service");
 
 const calendarController = require("express").Router();
+
+calendarController.get("/label", async (req, res) => {
+  res.set("Cache-control", "public, max-age=3600");
+  return res.status(200).json(CALENDAR_LABELL_COLOR);
+});
 
 calendarController.get("/", async (req, res) => {
   const { owner, targetDate } = req.query;
@@ -45,7 +51,7 @@ calendarController.post("/", async (req, res) => {
 });
 
 calendarController.post("/add", async (req, res) => {
-  const { targetDate, type, owner, content } = req.body;
+  const { targetDate, owner, content, label = "GREEN" } = req.body;
   if (!targetDate || !owner) {
     return res.status(400).json({ result: false });
   }
@@ -53,6 +59,7 @@ calendarController.post("/add", async (req, res) => {
     owner,
     targetDate: new Date(`${targetDate} 00:00:00`),
     content,
+    label,
   });
   if (!addResult) {
     return res.status(500).json({ result: false });
