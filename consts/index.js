@@ -2,6 +2,7 @@ require("dotenv").config();
 const APP_TOKEN = process.env.APP_TOKEN || "memo-app-token";
 
 const CALENDAR_LABELL_COLOR = {
+  PINK: "#FF9799",
   GREEN: "#67DC13",
   JAMONG: "#FF7600D4",
   YELLOW: "#ECE08A",
