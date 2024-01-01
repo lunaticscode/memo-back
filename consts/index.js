@@ -6,10 +6,10 @@ const CALENDAR_LABELL_COLOR = {
   GREEN: "#67DC13",
   JAMONG: "#FF7600D4",
   YELLOW: "#ECE08A",
-  BLACK: "#0c0c0c",
-  RED: "#FF4A42",
   PURPLE: "#BA76E4",
   SKYBLUE: "#84A7E1",
+  RED: "#FF4A42",
+  BLACK: "#0c0c0c",
 };
 
 Object.freeze(CALENDAR_LABELL_COLOR);
