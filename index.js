@@ -17,8 +17,8 @@ app.get("/test", (req, res) => {
 
 app.use("/api", logMiddleware, mainController);
 
-app.listen(PORT, () => {
-  console.log(`Running on ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Running on ${PORT}`);
+// });
 
-// module.exports = app;
+module.exports = app;
