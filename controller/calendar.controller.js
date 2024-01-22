@@ -72,11 +72,11 @@ calendarController.post("/add", async (req, res) => {
 
 calendarController.put("/:id", async (req, res) => {
   const id = req.params.id;
-  const data = req.body;
-  if (!targetId) {
+  const { content, label } = req.body;
+  if (!id || !content || !label) {
     return res.status(400).json({ result: false });
   }
-  const updateResult = await updateCalendar({ id, ...data });
+  const updateResult = await updateCalendar({ id, content, label });
   if (!updateResult) {
     return res.status(500).json({ result: false });
   }

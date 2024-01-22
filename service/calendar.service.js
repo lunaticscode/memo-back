@@ -99,11 +99,11 @@ const addCalendar = async ({ owner = "", targetDate, content, label }) =>
     );
   });
 
-const updateCalendar = async ({ content, label, id }) => {
+const updateCalendar = async ({ content, label, id }) =>
   await new Promise((resolve) => {
     dbConnection.query(
-      "update memo set `content` = ? and `label` = ? where id = ?;",
-      [content, label, id],
+      "update calendar set `content` = ?, `label` = ? where id = ?;",
+      [content, CALENDAR_LABELL_COLOR[label], id],
       (err, result) => {
         if (err) {
           console.log(err);
@@ -114,7 +114,6 @@ const updateCalendar = async ({ content, label, id }) => {
       }
     );
   });
-};
 
 const deleteCalendar = async ({ targetId }) =>
   await new Promise((resolve) => {
