@@ -3,13 +3,14 @@ const {
   getCalendarByType,
   getCalendarOne,
   addCalendar,
+  updateCalendar,
   deleteCalendar,
 } = require("../service/calendar.service");
 
 const calendarController = require("express").Router();
 
 calendarController.get("/label", async (req, res) => {
-  res.set("Cache-control", "public, max-age=3600");
+  res.set("Cache-control", "public, max-age=10");
   return res.status(200).json(CALENDAR_LABELL_COLOR);
 });
 
@@ -67,6 +68,19 @@ calendarController.post("/add", async (req, res) => {
   if (addResult) {
     return res.status(201).json({ result: true });
   }
+});
+
+calendarController.put("/:id", async (req, res) => {
+  const id = req.params.id;
+  const data = req.body;
+  if (!targetId) {
+    return res.status(400).json({ result: false });
+  }
+  const updateResult = await updateCalendar({ id, ...data });
+  if (!updateResult) {
+    return res.status(500).json({ result: false });
+  }
+  return res.status(200).json({ result: true });
 });
 
 calendarController.delete("/:id", async (req, res) => {

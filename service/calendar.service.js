@@ -99,11 +99,19 @@ const addCalendar = async ({ owner = "", targetDate, content, label }) =>
     );
   });
 
-const updateCalendar = async ({ owner = "", content, label, id }) => {
+const updateCalendar = async ({ content, label, id }) => {
   await new Promise((resolve) => {
     dbConnection.query(
       "update memo set `content` = ? and `label` = ? where id = ?;",
-      [content, label, id]
+      [content, label, id],
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          return resolve(null);
+        } else {
+          return resolve(true);
+        }
+      }
     );
   });
 };
@@ -126,5 +134,6 @@ module.exports = {
   getCalendarByType,
   addCalendar,
   getCalendarOne,
+  updateCalendar,
   deleteCalendar,
 };
