@@ -13,14 +13,15 @@ const getCalendarOne = async ({ owner, targetDate }) =>
     const date = targetDate.getDate();
 
     dbConnection.query(
-      "select * from calendar where targetDate between ? and ?",
+      // "select * from calendar where targetDate between ? and ?",
+      `select * from calendar_re where "targetDate" between $1 and $2`,
       [new Date(year, month, date), new Date(year, month, date, 23, 59, 59)],
       (err, result) => {
         if (err) {
           console.log(err);
           return resolve(null);
         }
-        return resolve(result);
+        return resolve(result.rows);
       }
     );
   });
@@ -43,14 +44,15 @@ const getCalendarByType = async ({ owner = "", targetDate, type = "day" }) =>
       );
 
       dbConnection.query(
-        "select * from calendar where targetDate between ? and ?",
+        // "select * from calendar where targetDate between ? and ?",
+        `select * from calendar_re where "targetDate" between $1 and $2`,
         [monthlyFirstDate, monthlyLastDate],
         (err, result) => {
           if (err) {
             console.log(err);
             return resolve(null);
           } else {
-            return resolve(result);
+            return resolve(result.rows);
           }
         }
       );
@@ -64,14 +66,15 @@ const getCalendarByType = async ({ owner = "", targetDate, type = "day" }) =>
         weeklyFirstDate.getTime() + 3600 * 24 * 1000 * 7
       );
       dbConnection.query(
-        "select * from calendar where targetDate between ? and ?",
+        // "select * from calendar where targetDate between ? and ?",
+        `select * from calendar_re where "targetDate" between $1 and $2`,
         [weeklyFirstDate, weeklyLastDate],
         (err, result) => {
           if (err) {
             console.log(err);
             return resolve(null);
           } else {
-            return resolve(result);
+            return resolve(result.rows);
           }
         }
       );
@@ -81,7 +84,8 @@ const getCalendarByType = async ({ owner = "", targetDate, type = "day" }) =>
 const addCalendar = async ({ owner = "", targetDate, content, label }) =>
   await new Promise((resolve) => {
     dbConnection.query(
-      "insert into calendar (owner, targetDate, content, label) values (?, ?, ?, ?)",
+      // "insert into calendar (owner, targetDate, content, label) values (?, ?, ?, ?)",
+      `insert into calendar_re (owner, "targetDate", content, label) values ($1, $2, $3, $4)`,
       [
         owner,
         targetDate,
@@ -102,7 +106,8 @@ const addCalendar = async ({ owner = "", targetDate, content, label }) =>
 const updateCalendar = async ({ content, label, id }) =>
   await new Promise((resolve) => {
     dbConnection.query(
-      "update calendar set `content` = ?, `label` = ? where id = ?;",
+      // "update calendar set `content` = ?, `label` = ? where id = ?;",
+      "update calendar_re set content = $1, label = $2 where id = $3;",
       [content, CALENDAR_LABELL_COLOR[label], id],
       (err, result) => {
         if (err) {
@@ -118,7 +123,8 @@ const updateCalendar = async ({ content, label, id }) =>
 const deleteCalendar = async ({ targetId }) =>
   await new Promise((resolve) => {
     dbConnection.query(
-      "delete from calendar where id = ?",
+      // "delete from calendar where id = ?",
+      "delete from calendar_re where id = $1",
       [targetId],
       (err, result) => {
         if (err) {
